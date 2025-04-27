@@ -1,16 +1,81 @@
 import { useState } from "react";
 import html2pdf from "html2pdf.js";
 
+// LISTA COLLABORATORI
 const users = {
   "alessia.pacifico": "123456",
   "andrea.chiodini": "123456",
-  // ... tutti gli altri
+  "angelo.buono": "123456",
+  "angelo.sticca": "123456",
+  "beatriz.gallina": "123456",
+  "camilla.martina": "123456",
+  "claudia.castano": "123456",
+  "cecilia.lucarini": "123456",
+  "chiara.longo": "123456",
+  "chiara.squaratti": "123456",
+  "cristina.gaeta": "123456",
+  "daniele.raudo": "123456",
+  "fabio.ghilardi": "123456",
+  "federico.franzosi": "123456",
+  "flora.padoan": "123456",
+  "francesca.marchese": "123456",
+  "greta.geracitano": "123456",
+  "laura.pescatori": "123456",
+  "leonard.neagoe": "123456",
+  "loris.bicego": "123456",
+  "samuele.lotta": "123456",
+  "lucrezia.locatelli": "123456",
+  "marco.dede": "123456",
+  "massimiliano.marfoglia": "123456",
+  "matteo.marinello": "123456",
+  "mattia.cerullo": "123456",
+  "massimiliano.dellorto": "123456",
+  "paolo.stringhetti": "123456",
+  "patrizia.gattullo": "123456",
+  "sabina.greco": "123456",
+  "sara.rossi": "123456",
+  "serena.palumbo": "123456",
+  "simona.caldarelli": "123456",
+  "xenia.vitalone": "123456",
+  "christian.dellefoglie": "123456",
+  "cristina.bressani": "123456",
+  "denise.facenda": "123456"
 };
 
+// LISTA MANSIONI
 const mansioni = [
   "Assistente bagnanti FERIALE",
   "Assistente bagnanti FESTIVO",
-  // ... tutte le altre mansioni
+  "Cassa FERIALE",
+  "Cassa FESTIVO",
+  "Rotazione FERIALE",
+  "Rotazione FESTIVO",
+  "Istruttore FERIALE",
+  "Istruttore FESTIVO",
+  "Aiuto allenatore FERIALE",
+  "Aiuto allenatore FESTIVO",
+  "Sincro/Pallan FERIALE",
+  "Sincro/Pallan FESTIVO",
+  "Acquagym FERIALE",
+  "Acquagym FESTIVO",
+  "Baby istruttore FERIALE",
+  "Baby istruttore FESTIVO",
+  "Baby aiuto allenatore FERIALE",
+  "Baby aiuto allenatore FESTIVO",
+  "Neonatale FERIALE",
+  "Neonatale FESTIVO",
+  "Preparto FERIALE",
+  "Preparto FESTIVO",
+  "Lezione individuale FERIALE",
+  "Lezione individuale FESTIVO",
+  "Propaganda FERIALE",
+  "Propaganda FESTIVO",
+  "Segreteria FERIALE",
+  "Segreteria FESTIVO",
+  "Coordinatore FERIALE",
+  "Coordinatore FESTIVO",
+  "Aquagol/Salvamento FERIALE",
+  "Aquagol/Salvamento FESTIVO"
 ];
 
 export default function CollaboratoriLogin() {
@@ -32,7 +97,7 @@ export default function CollaboratoriLogin() {
   };
 
   const aggiungiTurno = () => {
-    setTurni([...turni, { in: "", out: "", mansione: "" }]);
+    setTurni([...turni, { data: "", in: "", out: "", mansione: "" }]);
   };
 
   const aggiornaTurno = (index, campo, valore) => {
@@ -53,9 +118,9 @@ export default function CollaboratoriLogin() {
   const esportaPDF = () => {
     let contenuto = `<h1>Centro FIN Lampugnano - Foglio Ore Mensile</h1>`;
     contenuto += `<h2>${username} - ${mese}/${anno}</h2>`;
-    contenuto += `<table border='1' cellpadding='5' cellspacing='0'><tr><th>Inizio</th><th>Fine</th><th>Mansione</th><th>Ore</th></tr>`;
+    contenuto += `<table border='1' cellpadding='5' cellspacing='0'><tr><th>Data</th><th>Inizio</th><th>Fine</th><th>Mansione</th><th>Ore</th></tr>`;
     turni.forEach(t => {
-      contenuto += `<tr><td>${t.in}</td><td>${t.out}</td><td>${t.mansione}</td><td>${calcolaOre(t.in, t.out)}</td></tr>`;
+      contenuto += `<tr><td>${t.data}</td><td>${t.in}</td><td>${t.out}</td><td>${t.mansione}</td><td>${calcolaOre(t.in, t.out)}</td></tr>`;
     });
     contenuto += `</table><br><br><p>Firma collaboratore: _______________________</p>`;
     html2pdf().from(contenuto).save(`${username}_${mese}_${anno}.pdf`);
@@ -73,6 +138,7 @@ export default function CollaboratoriLogin() {
 
         {turni.map((turno, index) => (
           <div key={index} style={{ marginBottom: '10px' }}>
+            <input type="date" value={turno.data} onChange={(e) => aggiornaTurno(index, "data", e.target.value)} style={{ marginRight: '5px' }} />
             <input type="time" value={turno.in} onChange={(e) => aggiornaTurno(index, "in", e.target.value)} style={{ marginRight: '5px' }} />
             <input type="time" value={turno.out} onChange={(e) => aggiornaTurno(index, "out", e.target.value)} style={{ marginRight: '5px' }} />
             <select value={turno.mansione} onChange={(e) => aggiornaTurno(index, "mansione", e.target.value)}>
